@@ -70,7 +70,7 @@ class Page extends \Zend_Db_Table_Abstract
         $select->where('id = (?)', $pageId);
         
         $row = $this->fetchRow($select);
-        if ($row instanceof Zend_Db_Table_Row) {
+        if ($row instanceof \Zend_Db_Table_Row) {
             return $row;
         } else 
             return;
@@ -111,6 +111,6 @@ class Page extends \Zend_Db_Table_Abstract
                 'deleted' => self::IS_DELETED
             ], 'id = ' . $pageId);
         } else 
-            return new Exception('No page found for given id;');
+            return new \Exception('No page found for given id;');
     }
 }

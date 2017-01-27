@@ -1,11 +1,11 @@
 <?php
 
 /**
- * First app dispatching file.
+ * Bootstraping database and starting app.
  *
  * @package     ForceCMS
  * @subpackage  Application
- * @category    Start app
+ * @category    Starter|Bootstrap
  * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Start extends \ForceX\Application\Bootstrap

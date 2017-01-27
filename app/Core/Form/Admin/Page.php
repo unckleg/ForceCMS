@@ -2,7 +2,7 @@
 
 namespace Core\Form\Admin;
 
-class Page extends Zend_Form
+class Page extends \Zend_Form
 {
     protected $_pageLayout;
     protected $_task;
@@ -18,13 +18,13 @@ class Page extends Zend_Form
     
     public function init() 
     {
-        $this->setMethod(Zend_Form::METHOD_POST);
+        $this->setMethod(\Zend_Form::METHOD_POST);
         $this->setAction('');
-        $this->setEnctype(Zend_Form::ENCTYPE_MULTIPART);
+        $this->setEnctype(\Zend_Form::ENCTYPE_MULTIPART);
         
-        $validatorRequired = new Zend_Validate_NotEmpty();
+        $validatorRequired = new \Zend_Validate_NotEmpty();
 
-        $titleAdd = new Zend_Form_Element_Text('title');
+        $titleAdd = new \Zend_Form_Element_Text('title');
         $titleAdd
              ->addFilter('StringTrim')
              ->addValidator('StringLength', false, ['min' => 3, 'max' => 255])
@@ -32,12 +32,12 @@ class Page extends Zend_Form
              ->setRequired(true);
         $this->addElement($titleAdd);
 
-        $text = new Zend_Form_Element_Textarea('text');
+        $text = new \Zend_Form_Element_Textarea('text');
         $text->setRequired(true)
              ->setAttribs(['class' => 'form-control', 'id' => 'editor']);
         $this->addElement($text);
         
-        $seoTitle = new Zend_Form_Element_Text('seo_title');
+        $seoTitle = new \Zend_Form_Element_Text('seo_title');
         $seoTitle
              ->addFilter('StringTrim')
              ->addValidator('StringLength', false, ['min' => 3, 'max' => 255])
@@ -45,7 +45,7 @@ class Page extends Zend_Form
              ->setRequired(false);
         $this->addElement($seoTitle);
 
-        $seoKeywords = new Zend_Form_Element_Text('seo_keywords');
+        $seoKeywords = new \Zend_Form_Element_Text('seo_keywords');
         $seoKeywords
              ->addFilter('StringTrim')
              ->addValidator('StringLength', false, ['min' => 3, 'max' => 500])
@@ -53,7 +53,7 @@ class Page extends Zend_Form
              ->setRequired(false);
         $this->addElement($seoKeywords);
 
-        $seoDescription = new Zend_Form_Element_Text('seo_description');
+        $seoDescription = new \Zend_Form_Element_Text('seo_description');
         $seoDescription
              ->addFilter('StringTrim')
              ->addValidator('StringLength', false, ['min' => 3, 'max' => 500])
@@ -61,8 +61,8 @@ class Page extends Zend_Form
              ->setRequired(false);
         $this->addElement($seoDescription);
         
-        $keywords = Zend_Registry::get('config')->keywords;
-        $pagePhoto = new Zend_Form_Element_File('page_photo');
+        $keywords = \Zend_Registry::get('config')->keywords;
+        $pagePhoto = new \Zend_Form_Element_File('page_photo');
         $pagePhoto->addValidator('Count', true, 1)
                 ->addValidator('MimeType', true, ['image/jpeg', 'image/gif', 'image/png'])
                 ->addValidator('ImageSize', false, [

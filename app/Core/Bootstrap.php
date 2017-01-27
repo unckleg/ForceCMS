@@ -19,6 +19,9 @@ use ForceCMS\Controller\Plugin\Acl,
  */
 class Bootstrap extends \ForceX\Application\Module\Bootstrap {
 
+    /**
+     * Config inicialization and logging app.
+     */
     protected function _initAppConfig()
     {
         $config = new \Zend_Config_Ini(
@@ -28,6 +31,10 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         \Zend_Registry::set('config', $config);
     }
 
+    /**
+     * Cache inicialization and caching path definition.
+     * TODO: Allow database caching.
+     */
     public function _initCache() {
         $cache = \Zend_Cache::factory(
             'Core', 'File', [
@@ -39,7 +46,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         \Zend_Registry::set('Cache', $cache);
     }
 
-    protected function getThemeByControllerName() {
+    protected function getThemeByControllerName() { // TODO: Move to some model
         $router = new \Zend_Controller_Router_Rewrite();
         $request = new \Zend_Controller_Request_Http();
         $router->route($request);
@@ -56,19 +63,16 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
 
     protected function _initLayout() {
         $requestStatus = $this->getThemeByControllerName();
+        $activeTheme = Themes::getActiveTheme();
 
-        if($requestStatus) {
-
-            $activeTheme = Themes::getActiveTheme();
-            if ($activeTheme !== NULL) {
-                $path = APPLICATION_PATH . '/Themes/' . $activeTheme->theme_folder . '/templates';
-                \Zend_Registry::set('theme', $activeTheme);
-                \Zend_Layout::startMvc()
-                    ->setLayout('layout')
-                    ->setLayoutPath($path)
-                    ->setContentKey('content');
-            }
-
+        // set layout based on request status
+        if($requestStatus && $activeTheme !== NULL) {
+            $path = APPLICATION_PATH . '/Themes/' . $activeTheme->theme_folder . '/templates';
+            \Zend_Registry::set('theme', $activeTheme);
+            \Zend_Layout::startMvc()
+                ->setLayout('layout')
+                ->setLayoutPath($path)
+                ->setContentKey('content');
         } elseif(!$requestStatus) {
             \Zend_Layout::startMvc()
                 ->setLayout('backend')
@@ -83,10 +87,15 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
 
     }
 
+    /**
+     * View inicialization preLoading.
+     * @return mixed|null|\Zend_View
+     */
     protected function _initView() {
         $this->view = new \Zend_View();
         $requestStatus = $this->getThemeByControllerName();
 
+        // theme folder based on requestStatus
         if ($requestStatus) {
             $activeTheme = Themes::getActiveTheme();
             $path = APPLICATION_PATH . '/Themes/' . $activeTheme->theme_folder . '/templates';
@@ -97,6 +106,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
             $this->view->headTitle('Force CMS')->setSeparator(' - ');
         }
 
+        // set helpers path to view render object
         $viewRenderer = \Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
         $viewRenderer->setView($this->view);
         $viewRenderer->view->addHelperPath(APPLICATION_PATH . '/../lib/ForceCMS/Helpers/View', '')
@@ -106,6 +116,10 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         return $this->view;
     }
 
+    /**
+     * Translate inicialization preLoading.
+     * @return array|\Zend_Registry
+     */
     protected function _initTranslate() {
 
         $modelLanguage = new Language();
@@ -144,6 +158,10 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         }
     }
 
+    /**
+     * Plugin preDispatching and preLoading.
+     * @return mixed
+     */
     protected function _initPlugins() {
         $fc = \Zend_Controller_Front::getInstance();
         $fc->registerPlugin(new Acl())

@@ -6,6 +6,7 @@ use Core\Model\Admin\Page\Page,
     Core\Model\Admin\Page\PageContent,
     ForceCMS\Model\ORM as ORM,
     ForceCMS\Model\Language,
+    ForceCMS\Collections\Image\ImageResize,
     ForceX\Controller\Controller;
 
 class PageController extends Controller
@@ -70,18 +71,18 @@ class PageController extends Controller
         $request = $this->getRequest();
         
         // All languages fetching
-        $modelLanguage = new ForceCMS_Model_Language();
+        $modelLanguage = new Language();
         $allLanguages = ORM::Mapper_Search($modelLanguage, []);
         $currentLanguage = ORM::Mapper_SearchByOne($modelLanguage, [
             'orders' => ['priority' => ORM::COLUMN_ASC]
         ]);
         
         // Page and page content model inicialization
-        $modelPage = new Model_Admin_Page_Page();
-        $modelPageContent = new Model_Admin_Page_PageContent();
+        $modelPage = new Page();
+        $modelPageContent = new PageContent();
         
         // Form proccessing
-        $form = new Form_Admin_Page(NULL);
+        $form = new \Core\Form\Admin\Page(NULL);
         
         if ($this->_request->isPost() && $this->_request->getPost('task') === 'save') {
 
@@ -106,15 +107,15 @@ class PageController extends Controller
                     $fileExtension =  pathinfo($form->page_photo->getFileName(), PATHINFO_EXTENSION);
                     $image = '/uploads/pages/' .basename($form->page_photo->getFileName());
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtXL, $this->_heightXL, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-xl.".$fileExtension);
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtL, $this->_heightL, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-l.".$fileExtension);
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtS, $this->_heightS, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-s.".$fileExtension);
 
@@ -130,7 +131,7 @@ class PageController extends Controller
                             'action' => 'index',
                         ], 'default', true);
                 
-            } catch (Application_Model_Exception_InvalidInput $ex) {
+            } catch (\Exception $ex) {
                 $this->_systemMessages['errors'][] = $ex->getMessage();
             }
         }
@@ -156,14 +157,14 @@ class PageController extends Controller
         ]);
         
         // Page model inicialization
-        $modelPage = new Model_Admin_Page_Page();
-        $modelPageContent = new Model_Admin_Page_PageContent();
+        $modelPage = new Page();
+        $modelPageContent = new PageContent();
         $page = ORM::Mapper_SearchByOne($modelPage, [
            'filters' => ['id' => $pageId]
         ]);
         
         // Form proccessing
-        $form = new Form_Admin_Page($page);
+        $form = new \Core\Form\Admin\Page($page);
         
         if ($this->_request->isPost() && $this->_request->getPost('task') === 'save') {
 
@@ -188,15 +189,15 @@ class PageController extends Controller
                     $fileExtension =  pathinfo($form->page_photo->getFileName(), PATHINFO_EXTENSION);
                     $image = '/uploads/pages/' .basename($form->page_photo->getFileName());
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtXL, $this->_heightXL, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-xl.".$fileExtension);
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtL, $this->_heightL, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-l.".$fileExtension);
 
-                    $resizeImage = new ForceCMS_Image_Resizeimage(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtS, $this->_heightS, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-s.".$fileExtension);
 
@@ -212,7 +213,7 @@ class PageController extends Controller
                             'action' => 'index',
                         ], 'default', true);
                 
-            } catch (Application_Model_Exception_InvalidInput $ex) {
+            } catch (\Exception $ex) {
                 var_dump($ex->getMessage()); exit();
             }
         }
@@ -232,15 +233,15 @@ class PageController extends Controller
         $langId = $this->_request->getParam('language');
         
         // All and current language fetching
-        $modelLanguage = new ForceCMS_Model_Language();
+        $modelLanguage = new Language();
         $allLanguages = ORM::Mapper_Search($modelLanguage, []);
         $currentLanguage = ORM::Mapper_SearchByOne($modelLanguage, [
             'filters' => ['id' => $langId]
         ]);
         
         // Page model inicialization
-        $modelPage = new Model_Admin_Page_Page();
-        $modelPageContent = new Model_Admin_Page_PageContent();
+        $modelPage = new Page();
+        $modelPageContent = new PageContent();
         $page = ORM::Mapper_SearchByOne($modelPage, [
            'filters' => ['id' => $pageId]
         ]);
@@ -253,20 +254,19 @@ class PageController extends Controller
         ], ORM::TO_ARRAY);
         
         if (count($pageContent) <= 0 || $pageContent == NULL) {
-            $this->_redirector->setExit(true)
-                    ->gotoRoute([
-                        'controller' => 'admin_page',
-                        'action' => 'content',
-                        'page' => $page['id'],
-                        'language' => $currentLanguage->id
-                    ], 'default', true);
+            $this->_redirector->setExit(true)->gotoRoute([
+                'controller' => 'admin_page',
+                'action'     => 'content',
+                'page'       => $page['id'],
+                'language'   => $currentLanguage->id
+            ],  'default', true);
         }
 
         $pagePhoto = $pageContent['page_photo'] !== NULL &&
         $pageContent['page_photo'] !== '' ? $pageContent['page_photo'] : NULL;
 
         // Form proccessing
-        $form = new Form_Admin_Page($page, 'update', $pagePhoto);
+        $form = new \Core\Form\Admin\Page($page, 'update', $pagePhoto);
         
         if ($this->_request->isPost() && $this->_request->getPost('task') === 'update') {
 
@@ -293,7 +293,7 @@ class PageController extends Controller
                     $fileExtension =  pathinfo($form->page_photo->getFileName(), PATHINFO_EXTENSION);
                     $image = '/uploads/pages/' .basename($form->page_photo->getFileName());
 
-                    $resizeImage = new ForceCMS_Collections_Image_ImageResize(APP_PUBLIC . $image);
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
                     $resizeImage->resizeTo($this->_widhtXL, $this->_heightXL, 'exact');
                     $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-xl.".$fileExtension);
 
@@ -315,7 +315,7 @@ class PageController extends Controller
                             'action' => 'index',
                         ], 'default', true);
                 
-            } catch (Application_Model_Exception_InvalidInput $ex) {
+            } catch (\Exception $ex) {
                 var_dump($ex->getMessage()); exit();
             }
         } else {
@@ -339,7 +339,7 @@ class PageController extends Controller
                     throw new Exception('Page with id: ' . $id . ' not valid.' . ' exist');
                 }
 
-                $modelPages = new Model_Admin_Page_Page();
+                $modelPages = new Page();
                 $page = $modelPages->getPageById($id);
 
                 if($page->status == 0){
@@ -377,9 +377,9 @@ class PageController extends Controller
                     throw new Exception('Page with id: ' . $id . ' not valid.' . ' exist');
                 }
 
-                $modelPages = new Model_Admin_Page_Page();
+                $modelPages = new Page();
                 $page = $modelPages->getPageById($id);
-                $page->deleted = Model_Admin_Page_Page::IS_DELETED;
+                $page->deleted = Page::IS_DELETED;
                 $page->save();
 
                 $this->_flashMessenger->addMessage('Page was deleted successfully.', 'success');

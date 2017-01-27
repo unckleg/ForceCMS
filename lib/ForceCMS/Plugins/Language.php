@@ -22,6 +22,6 @@ class Language extends \Zend_Controller_Plugin_Abstract
             $language = $modelLanguage->getFirst(1);
         }
 
-        Zend_Registry::set('language', $language);
+        \Zend_Registry::set('language', $language);
     }
 }

@@ -5,10 +5,12 @@ namespace Core;
 use ForceCMS\Controller\Plugin\Acl,
     ForceCMS\Model\Language,
     ForceCMS\Model\Themes,
+    ForceCMS\Plugins\Language as LanguagePlugin,
     ForceCMS\Plugins\Admin,
     ForceCMS\Plugins\CsrfProtect,
     ForceCMS\Plugins\HtmlCompress,
     ForceCMS\Plugins\Router;
+use ForceCMS\Plugins\Caching;
 
 /**
  * Bootstraps required resources for the application
@@ -167,6 +169,8 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         $fc->registerPlugin(new Acl())
            ->registerPlugin(new Router(\Zend_Controller_Front::getInstance()))
            ->registerPlugin(new Admin())
+           ->registerPlugin(new Caching())
+           ->registerPlugin(new LanguagePlugin())
            ->registerPlugin(new CsrfProtect())
            ->registerPlugin(new HtmlCompress());
     }

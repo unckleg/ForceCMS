@@ -2,7 +2,7 @@
 
 namespace Core\Form\Admin\Blog;
 
-class Tag extends Zend_Form
+class Tag extends \Zend_Form
 {
     public function __construct($options = null)
     {
@@ -11,10 +11,10 @@ class Tag extends Zend_Form
 
     public function init()
     {
-        $this->setMethod(Zend_Form::METHOD_POST);
+        $this->setMethod(\Zend_Form::METHOD_POST);
         $this->setAction('');
 
-        $categoryName = new Zend_Form_Element_Text('title');
+        $categoryName = new \Zend_Form_Element_Text('title');
         $categoryName->addFilter('StringTrim')
             ->addValidator('StringLength', false, ['min' => 2, 'max' => 255])
             ->setAttribs(['class' => 'form-control', 'placeholder' => 'Unseite ime oznake', 'required' => ''])
@@ -25,6 +25,6 @@ class Tag extends Zend_Form
             ->setDecorators([['ViewScript', [
                     'viewScript' => 'admin/blog/form/_tag.phtml',
             ]],
-            ]);
+        ]);
     }
 }

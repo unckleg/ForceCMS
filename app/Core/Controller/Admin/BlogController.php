@@ -1,21 +1,21 @@
 <?php
 
-// Model classes
-use ForceCMS_Model_ORM as ORM,
-    ForceCMS_Collections_Image_ImageResize as ImageResize,
-    Model_Admin_Blog_BlogCategory as BlogCategory,
-    Model_Admin_Blog_BlogPostToCategory as BlogPostToCategory,
-    Model_Admin_Blog_BlogPost as BlogPost,
-    Model_Admin_Blog_BlogTag as BlogTag,
-    Model_Admin_Blog_BlogComment as BlogComment,
-    Zend_Controller_Request_Http as Request;
+namespace Core\Controller\Admin;
 
-// Form classes
-use Form_Admin_Blog_Category as FormCategory,
-    Form_Admin_Blog_Tag as FormTag,
-    Form_Admin_Blog_Post as FormPost;
+use ForceCMS\Controller\ControllerAbstract;
+use ForceCMS\Model\ORM as ORM,
+    ForceCMS\Collections\Image\ImageResize as ImageResize,
+    Core\Model\Admin\Blog\BlogCategory as BlogCategory,
+    Core\Model\Admin\Blog\BlogPostToCategory as BlogPostToCategory,
+    Core\Model\Admin\Blog\BlogPost as BlogPost,
+    Core\Model\Admin\Blog\BlogTag as BlogTag,
+    Core\Model\Admin\Blog\BlogComment as BlogComment,
+    Core\Form\Admin\Blog\Category as FormCategory,
+    Core\Form\Admin\Blog\Tag as FormTag,
+    Core\Form\Admin\Blog\Post as FormPost,
+    \Zend_Controller_Request_Http as Request;
 
-class Admin_BlogController extends ForceCMS_Controller_Abstract
+class BlogController extends ControllerAbstract
 {
     private $_widhtXL = 1060;
     private $_heightXL = 1060;
@@ -87,7 +87,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                     if ($request->getPost('id') !== NULL && $request->getPost('id') !== '') {
                         $categoryId = $request->getPost('id');
                     } else {
-                        throw new Exception('ID broj kategorije nije prosledjen.');
+                        throw new \Exception('ID broj kategorije nije prosledjen.');
                     }
 
                     // Get form data
@@ -129,7 +129,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                          ], 'default', true);
                 }
 
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->_systemMessages['errors'][] = $ex->getMessage();
             }
 
@@ -169,7 +169,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                     if ($request->getPost('id') !== NULL && $request->getPost('id') !== '') {
                         $tagId = $request->getPost('id');
                     } else {
-                        throw new Exception('ID broj oznake nije prosledjen.');
+                        throw new \Exception('ID broj oznake nije prosledjen.');
                     }
 
                     // Get form data
@@ -209,7 +209,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                         ], 'default', true);
                 }
 
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->_systemMessages['errors'][] = $ex->getMessage();
             }
 
@@ -329,7 +329,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                 // set sticky message
                 $this->_flashMessenger->addMessage('Task is successfull', 'success');
 
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->_systemMessages['errors'][] = $ex->getMessage();
             }
         }
@@ -418,7 +418,7 @@ class Admin_BlogController extends ForceCMS_Controller_Abstract
                         'action' => 'index',
                     ],  'default', true);
 
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->_systemMessages['errors'][] = $ex->getMessage();
             }
         } else {

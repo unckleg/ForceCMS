@@ -1,7 +1,8 @@
 <?php
 
+namespace Core\Model\Admin\Blog;
 
-class Model_Admin_Blog_BlogCategory extends \Zend_Db_Table_Abstract
+class BlogCategory extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_blog_category';

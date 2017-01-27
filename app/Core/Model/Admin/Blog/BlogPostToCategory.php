@@ -1,14 +1,13 @@
 <?php
 
-use ForceCMS_Model_Language as Language;
+namespace Core\Model\Admin\Blog;
 
-class Model_Admin_Blog_BlogPostToCategory extends \Zend_Db_Table_Abstract
+
+class BlogPostToCategory extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_blog_post_to_category';
 
-    // soft delete constants read about it on link bellow
-    // http://www.pcmag.com/encyclopedia/term/57355/soft-delete
     const IS_DELETED = 1;
     const IS_ACTIVE = 0;
 

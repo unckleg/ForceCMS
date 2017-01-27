@@ -1,10 +1,11 @@
 <?php
 
-use ForceCMS_Model_Language as Language,
-    \Zend_Db_Table_Abstract as ZendDbAbstract,
-    ForceCMS_Model_ORM as ORM;
+namespace Core\Model\Admin\Blog;
 
-class Model_Admin_Blog_BlogPost extends \Zend_Db_Table_Abstract
+use \Zend_Db_Table_Abstract as ZendDbAbstract,
+    ForceCMS\Model\ORM as ORM;
+
+class BlogPost extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_blog_post';

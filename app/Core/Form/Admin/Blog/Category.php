@@ -2,7 +2,7 @@
 
 namespace Core\Form\Admin\Blog;
 
-class Category extends Zend_Form
+class Category extends \Zend_Form
 {
     public function __construct($options = null)
     {
@@ -11,10 +11,10 @@ class Category extends Zend_Form
 
     public function init()
     {
-        $this->setMethod(Zend_Form::METHOD_POST);
+        $this->setMethod(\Zend_Form::METHOD_POST);
         $this->setAction('');
 
-        $categoryName = new Zend_Form_Element_Text('name');
+        $categoryName = new \Zend_Form_Element_Text('name');
         $categoryName->addFilter('StringTrim')
             ->addValidator('StringLength', false, ['min' => 2, 'max' => 255])
             ->setAttribs(['class' => 'form-control', 'placeholder' => 'Unseite ime kategorije', 'required' => ''])

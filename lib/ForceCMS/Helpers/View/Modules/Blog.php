@@ -1,6 +1,6 @@
 <?php
 
-use ForceCMS_Model_ORM as ORM;
+use ForceCMS\Model\ORM as ORM;
 
 class Blog extends Zend_View_Helper_Abstract
 {
@@ -49,7 +49,7 @@ class Blog extends Zend_View_Helper_Abstract
     protected function _getBlogPostModel()
     {
         if (!$this->_post) {
-            $this->_comment = new Model_Admin_Blog_BlogComment();
+            $this->_comment = new \Core\Model\Admin\Blog\BlogComment();
         }
         return $this->_comment;
     }
@@ -57,7 +57,7 @@ class Blog extends Zend_View_Helper_Abstract
     protected function _getBlogPostCommentModel()
     {
         if (!$this->_comment) {
-            $this->_comment = new Model_Admin_Blog_BlogPost();
+            $this->_comment = new \Core\Model\Admin\Blog\BlogPost();
         }
         return $this->_comment;
     }

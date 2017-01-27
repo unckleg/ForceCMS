@@ -1,7 +1,8 @@
 <?php
 
+namespace Core\Model\Admin\Blog;
 
-class Model_Admin_Blog_BlogTag extends \Zend_Db_Table_Abstract
+class BlogTag extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_blog_tag';
@@ -34,7 +35,7 @@ class Model_Admin_Blog_BlogTag extends \Zend_Db_Table_Abstract
         $select->where('id = (?)', $tagId);
 
         $row = $this->fetchRow($select);
-        if ($row instanceof Zend_Db_Table_Row) {
+        if ($row instanceof \Zend_Db_Table_Row) {
             return $row;
         } else
             return;
@@ -75,6 +76,6 @@ class Model_Admin_Blog_BlogTag extends \Zend_Db_Table_Abstract
                 'deleted' => self::IS_DELETED
             ], 'id = ' . $tagId);
         } else
-            return new Exception('No tag found for given id;');
+            return new \Exception('No tag found for given id;');
     }
 }

@@ -17,9 +17,9 @@ namespace ForceCMS\Controller;
  * @package     ForceCMS
  * @subpackage  Controller
  * @category    Dispatch
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
-abstract class Controller_Abstract extends Zend_Controller_Action
+abstract class ControllerAbstract extends \ForceX\Controller\Controller
 {
     /**
      *
@@ -58,11 +58,11 @@ abstract class Controller_Abstract extends Zend_Controller_Action
     /**
      *
      * @param string $action
-     * @return array of Zend_Reflection_Parameter objects
+     * @return array of \Zend_Reflection_Parameter objects
      */
     protected function _actionReflectionParams($action)
     {
-        $reflMethod = new Zend_Reflection_Method($this, $action);
+        $reflMethod = new \Zend_Reflection_Method($this, $action);
         $parameters = $reflMethod->getParameters();
 
         return $parameters;
@@ -70,16 +70,17 @@ abstract class Controller_Abstract extends Zend_Controller_Action
 
     /**
      *
-     * @param Zend_Reflection_Parameter $parameter
+     * @param \Zend_Reflection_Parameter $parameter
      * @return string
-     * @throws Exception when required @param is missing
+     * @throws \Exception when required @param is missing
      */
-    protected function _getParameterType(Zend_Reflection_Parameter $parameter)
+    protected function _getParameterType(\Zend_Reflection_Parameter $parameter)
     {
         // get parameter type
         $reflClass = $parameter->getClass();
 
-        if ($reflClass instanceof Zend_Reflection_Class) {
+
+        if ($reflClass instanceof \Zend_Reflection_Class) {
             $type = $reflClass->getName();
         } else if ($parameter->isArray()) {
             $type = 'array';
@@ -88,7 +89,7 @@ abstract class Controller_Abstract extends Zend_Controller_Action
         }
 
         if (null === $type) {
-            throw new Exception(
+            throw new \Exception(
                 sprintf(
                     "Required @param DocBlock not found for '%s'", $parameter->getName()
                 )
@@ -100,11 +101,11 @@ abstract class Controller_Abstract extends Zend_Controller_Action
 
     /**
      *
-     * @param Zend_Reflection_Parameter $parameter
+     * @param \Zend_Reflection_Parameter $parameter
      * @return mixed
-     * @throws Exception when required argument is missing
+     * @throws \Exception when required argument is missing
      */
-    protected function _getParameterValue(Zend_Reflection_Parameter $parameter)
+    protected function _getParameterValue(\Zend_Reflection_Parameter $parameter)
     {
         $name = $parameter->getName();
         $requestValue = $this->getRequest()->getParam($name);

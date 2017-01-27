@@ -42,7 +42,7 @@
                             <td  class="text-center"><?php echo $this->escape($category['name']); ?></td>
                             <td  class="text-center"><?php echo $this->escape(date('M d, Y', strtotime($category['date_created']))); ?></td>
                             <td class="text-center">
-                                <?php if ($category['status'] == Model_Admin_Blog_BlogCategory::STATUS_VISIBLE):?>
+                                <?php if ($category['status'] == \Core\Model\Admin\Blog\BlogCategory::STATUS_VISIBLE):?>
                                     <span class="label label-sm label-info" style="background-color: #8775a7;"> Vidljivo </span>
                                 <?php else:?>
                                     <span class="label label-sm label-danger label-info" style="background-color: #8775a7;"> Sakriveno </span>

@@ -1,7 +1,8 @@
 <?php
 
+namespace Core\Model\Admin\Blog;
 
-class Model_Admin_Blog_BlogAuthor extends \Zend_Db_Table_Abstract
+class BlogAuthor extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_blog_author';

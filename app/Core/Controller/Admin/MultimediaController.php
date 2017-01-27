@@ -1,19 +1,13 @@
 <?php
 
-use ForceCMS_Model_ORM as ORM,
-    Model_Admin_Multimedia_Multimedia as Multimedia;
+namespace Core\Controller\Admin;
 
-class Admin_MultimediaController extends ForceCMS_Controller_Abstract
+use ForceCMS\Model\ORM as ORM,
+    ForceCMS\Controller\ControllerAbstract,
+    Core\Model\Admin\Multimedia\Multimedia as Multimedia;
+
+class MultimediaController extends ControllerAbstract
 {
-    private $_widhtXL = 1060;
-    private $_heightXL = 1060;
-
-    private $_widhtL = 748;
-    private $_heightL = 748;
-
-    private $_widhtS = 100;
-    private $_heightS = 100;
-
     protected $_redirector;
     protected $_flashMessenger;
     protected $_systemMessages;

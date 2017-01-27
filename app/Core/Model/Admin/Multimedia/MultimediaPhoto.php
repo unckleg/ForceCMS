@@ -1,7 +1,8 @@
 <?php
 
+namespace Core\Model\Admin\Multimedia;
 
-class Model_Admin_Multimedia_MultimediaPhoto extends \Zend_Db_Table_Abstract
+class MultimediaPhoto extends \Zend_Db_Table_Abstract
 {
     // table name
     protected $_name = 'cms_multimedia_photo';

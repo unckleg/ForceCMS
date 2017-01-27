@@ -2,10 +2,10 @@
 
 namespace Core\Form\Admin\Blog;
 
-use Model_Admin_Blog_BlogPost as BlogPost,
-    Model_Admin_Blog_BlogCategory as BlogCategory;
+use Core\Model\Admin\Blog\BlogPost as BlogPost,
+    Core\Model\Admin\Blog\BlogCategory as BlogCategory;
 
-class Post extends Zend_Form
+class Post extends \Zend_Form
 {
     protected $_task;
     protected $_photo;
@@ -20,13 +20,13 @@ class Post extends Zend_Form
 
     public function init()
     {
-        $this->setMethod(Zend_Form::METHOD_POST);
+        $this->setMethod(\Zend_Form::METHOD_POST);
         $this->setAction('');
-        $this->setEnctype(Zend_Form::ENCTYPE_MULTIPART);
+        $this->setEnctype(\Zend_Form::ENCTYPE_MULTIPART);
 
-        $validatorRequired = new Zend_Validate_NotEmpty();
+        $validatorRequired = new \Zend_Validate_NotEmpty();
 
-        $postTitle = new Zend_Form_Element_Text('title');
+        $postTitle = new \Zend_Form_Element_Text('title');
         $postTitle->addFilter('StringTrim')
           ->addValidator('StringLength', false, ['min' => 3, 'max' => 500])
           ->addValidator($validatorRequired)
@@ -36,13 +36,13 @@ class Post extends Zend_Form
           ->setRequired(true);
         $this->addElement($postTitle);
 
-        $postText = new Zend_Form_Element_Textarea('text');
+        $postText = new \Zend_Form_Element_Textarea('text');
         $postText->addValidator('StringLength')
              ->setAttribs(['class' => 'form-control', 'id' => 'editor'])
              ->setRequired(false);
         $this->addElement($postText);
 
-        $postStatus = new Zend_Form_Element_Select('status');
+        $postStatus = new \Zend_Form_Element_Select('status');
         $postStatus->addMultiOptions([
             BlogPost::STATUS_VISIBLE => 'Objavi',
             BlogPost::STATUS_ONHOLD => 'Na čekanju',
@@ -50,7 +50,7 @@ class Post extends Zend_Form
         ])->setAttribs(['class' => 'form-control']);
         $this->addElement($postStatus);
 
-        $postPublishingDate = new Zend_Form_Element_Text('date_published');
+        $postPublishingDate = new \Zend_Form_Element_Text('date_published');
         $postPublishingDate->addFilter('StringTrim')
            ->addValidator($validatorRequired)
            ->setAttribs([
@@ -60,7 +60,7 @@ class Post extends Zend_Form
            ]);
         $this->addElement($postPublishingDate);
 
-        $postCategories = new Zend_Form_Element_Multiselect('categories');
+        $postCategories = new \Zend_Form_Element_Multiselect('categories');
         $postCategories->addFilter('StringTrim')
            ->addValidator($validatorRequired)
            ->setAttribs([
@@ -79,7 +79,7 @@ class Post extends Zend_Form
         }
         $this->addElement($postCategories);
 
-        $postTags = new Zend_Form_Element_Text('tags');
+        $postTags = new \Zend_Form_Element_Text('tags');
         $postTags->addFilter('StringTrim')->setAttribs([
             'class' => 'form-control input-large',
             'data-role' => 'tagsinput',
@@ -88,8 +88,8 @@ class Post extends Zend_Form
         ]);
         $this->addElement($postTags);
 
-        $keywords = Zend_Registry::get('config')->keywords;
-        $postPhoto = new Zend_Form_Element_File('featured_image');
+        $keywords = \Zend_Registry::get('config')->keywords;
+        $postPhoto = new \Zend_Form_Element_File('featured_image');
         $postPhoto->addValidator('Count', true, 1)
             ->addValidator('MimeType', true, ['image/jpeg', 'image/gif', 'image/png'])
             ->addValidator('ImageSize', false, [
@@ -105,7 +105,7 @@ class Post extends Zend_Form
         $postPhoto->addFilter('Rename', ['target' => APP_PUBLIC . '/uploads/posts/'.date("Y-m-d-H-i-s") . '-' . $keywords . '.jpg', 'overwrite' => true]);
         $this->addElement($postPhoto);
 
-        $postCommentsStatus = new Zend_Form_Element_Select('comments_enabled');
+        $postCommentsStatus = new \Zend_Form_Element_Select('comments_enabled');
         $postCommentsStatus->addFilter('StringTrim')
            ->addValidator($validatorRequired)
            ->addMultiOptions([

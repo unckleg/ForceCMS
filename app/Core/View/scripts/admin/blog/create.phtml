@@ -1,0 +1,49 @@
+<h1 class="page-title"> Dodavanje nove objave
+    <div class="btn-group pull-right">
+        <a href="<?php echo $this->resourceUrl()->index('index');?>"  class="btn sbold green">
+            <i class="fa fa-arrow-left"></i>&nbsp;
+            Nazad
+        </a>
+    </div>
+</h1>
+
+<div class="row">
+    <?php echo $this->form; ?>
+</div>
+
+<?php
+    $this->getHelper('HtmlLibraries')->library('ckeditor');
+    $this->getHelper('HtmlLibraries')->library('datetimepicker');
+    $this->getHelper('HtmlLibraries')->library('tagsinput');
+    $this->getHelper('HtmlLibraries')->library('select2');
+    $this->getHelper('HtmlLibraries')->library('fileinput');
+?>
+
+<script>
+    <?php $this->inlineScript()->captureStart();?>
+    CKEDITOR.replace( 'editor', {
+        height: 310,
+        allowedContent: true,
+        toolbar: [
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Preview', 'Print', '-',] },
+            { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo' ] },
+            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ] },
+            { name: 'links', items: [ 'Link', 'Unlink' ] },
+            { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule'] },
+            '/',
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', '-', 'RemoveFormat' ] },
+            { name: 'styles', items: [ 'Styles', 'Format' ] },
+            { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+            { name: 'others', items: [ '-' ] },
+            { name: 'about', items: [ 'About' ] }
+        ]
+    });
+    CKEDITOR.config.skin = 'office2013';
+
+    $(".mypicker").datetimepicker({
+        isRTL: false,
+        format: 'dd.mm.yyyy hh:ii',
+        autoclose: true,
+    });
+    <?php $this->inlineScript()->captureEnd();?>
+</script>

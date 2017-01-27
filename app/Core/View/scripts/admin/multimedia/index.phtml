@@ -1,0 +1,67 @@
+<h1 class="page-title"> Multimedija
+    <small> Menadžment galerija</small>
+    <div class="btn-group pull-right">
+        <a href="<?php echo $this->resourceUrl()->action('create');?>" class="btn sbold green"> Dodaj novi &nbsp;
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+</h1>
+
+<div class="mt-element-card mt-element-overlay">
+    <div class="row" id="sortable">
+    <?php $i=0; foreach ($this->albums as $album): $i++; ?>
+        <div class="mt-card-item col-md-3" data-action="sort">
+            <div class="mt-card-avatar mt-overlay-4">
+                <img src="<?php echo $this->escape($album['album_photo']); ?>" />
+                <div class="mt-overlay">
+                    <h2><?php echo $this->escape($album['album_name']); ?></h2>
+                    <div class="mt-info font-white">
+                        <div class="mt-card-content">
+                            <div class="mt-card-social">
+                                <ul>
+                                    <li>
+                                        <a class="mt-card-btn" href="javascript:;"
+                                           data-id="status"
+                                           data-action="show"
+                                           data-page-id="<?php echo  $page['id'];?>">
+                                            <i class="icon-check"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="mt-card-btn" href="javascript:;">
+                                            <i class="icon-pencil"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="mt-card-btn" href="javascript:;"
+                                            data-id="status"
+                                            data-action="delete"
+                                            data-page-id="<?php echo  $page['id'];?>">
+                                            <i class="icon-trash"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    </div>
+</div>
+
+<?php $this->getHelper('HtmlLibraries')->library('jqueryui'); ?>
+<?php $this->modalBox('album'); ?>
+
+<script>
+<?php $this->inlineScript()->captureStart(); ?>
+
+    var sortableRow = $('#sortable');
+
+    sortableRow.sortable({
+        handle: '[data-action="sort"]',
+    });
+
+<?php $this->inlineScript()->captureEnd(); ?>
+</script>

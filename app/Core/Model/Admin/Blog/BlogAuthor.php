@@ -7,7 +7,7 @@ class BlogAuthor extends \Zend_Db_Table_Abstract
     // table name
     protected $_name = 'cms_blog_author';
 
-    // soft delete constants read about it on link bellow
+    // soft delete constants
     const IS_DELETED = 1;
     const IS_ACTIVE = 0;
 

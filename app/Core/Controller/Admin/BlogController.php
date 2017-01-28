@@ -41,9 +41,6 @@ class BlogController extends ControllerAbstract
         $this->view->systemMessages = $this->_systemMessages;
     }
 
-    /**
-     * @param Model_Admin_Blog_BlogPost $modelBlogPost
-     */
     public function indexAction(BlogPost $modelBlogPost)
     {
         // All posts fetching
@@ -58,9 +55,6 @@ class BlogController extends ControllerAbstract
 
     /**
      * @param int $categoryId
-     * @param Model_Admin_Blog_BlogCategory $modelBlogCategory
-     * @param Form_Admin_Blog_Category $form
-     * @param Zend_Controller_Request_Http $request
      */
     public function categoryAction($categoryId, BlogCategory $modelBlogCategory,
                                                 FormCategory $form,
@@ -141,9 +135,6 @@ class BlogController extends ControllerAbstract
 
     /**
      * @param int $tagId
-     * @param Model_Admin_Blog_BlogTag $modelBlogTag
-     * @param Form_Admin_Blog_Tag $form
-     * @param Zend_Controller_Request_Http $request
      */
     public function tagAction($tagId, BlogTag $modelBlogTag,
                                       FormTag $form,
@@ -219,10 +210,6 @@ class BlogController extends ControllerAbstract
         $this->view->tags = $allTags;
     }
 
-    /**
-     * @param Model_Admin_Blog_BlogComment $modelBlogComment
-     * @param Zend_Controller_Request_Http $request
-     */
     public function commentAction(BlogComment $modelBlogComment, Request $request)
     {
         if ($request->isXmlHttpRequest()) {
@@ -267,13 +254,6 @@ class BlogController extends ControllerAbstract
         $this->view->approvedcomments = $approvedComments;
     }
 
-    /**
-     * @param Form_Admin_Blog_Post $form
-     * @param Model_Admin_Blog_BlogPost $modelBlogPost
-     * @param Model_Admin_Blog_BlogTag $modelBlogTag
-     * @param Model_Admin_Blog_BlogPostToCategory $modelBlogPostToCategory
-     * @param Zend_Controller_Request_Http $request
-     */
     public function createAction(FormPost $form, BlogPost $modelBlogPost, BlogTag $modelBlogTag,
                                                  BlogPostToCategory $modelBlogPostToCategory,
                                                  Request $request)
@@ -339,24 +319,20 @@ class BlogController extends ControllerAbstract
 
     /**
      * @param int $id
-     * @param Form_Admin_Blog_Post $form
-     * @param Model_Admin_Blog_BlogPost $modelBlogPost
-     * @param Model_Admin_Blog_BlogTag $modelBlogTag
-     * @param Model_Admin_Blog_BlogPostToCategory $modelBlogPostToCategory
-     * @param Model_Admin_Blog_BlogTag $modelBlogTag
-     * @param Zend_Controller_Request_Http $request
      */
-    public function editAction($id, FormPost $form, BlogPost $modelBlogPost,
+    public function editAction($id, FormPost $form,     BlogPost $modelBlogPost,
                                BlogTag $modelBlogTag,   BlogPostToCategory $modelBlogPostToCategory,
                                BlogCategory $modelBlogCategory,
                                Request $request)
     {
 
         if (isset($id) && $id !== '' && $id !== null) {
+
             $currentPost = $modelBlogPost->getPostCategoryTagData(
-                $id, $modelBlogPostToCategory,
+                $id,           $modelBlogPostToCategory,
                 $modelBlogTag, $modelBlogCategory
             );
+
         } else {
             // set sticky message
             $this->_flashMessenger->addMessage('Post with id: ' . $id . ' is not valid.', 'success');
@@ -406,7 +382,7 @@ class BlogController extends ControllerAbstract
                 }
 
                 // inserting data to tables
-                $modelBlogPost->createPostCategoryTagData($formData, $modelBlogPostToCategory, $modelBlogTag);
+                $modelBlogPost->editPost($id, $formData, $modelBlogPostToCategory, $modelBlogTag);
 
                 // set sticky message
                 $this->_flashMessenger->addMessage('Post is successfully updated.', 'success');
@@ -431,6 +407,5 @@ class BlogController extends ControllerAbstract
 
     public function statusAction()
     {
-
     }
 }

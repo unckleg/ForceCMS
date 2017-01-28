@@ -44,6 +44,19 @@ class BlogPostToCategory extends \Zend_Db_Table_Abstract
         $this->update($postToCategoryDate, 'id = ' . $postToCategoryId);
     }
 
+    public function deleteOldRelationsAndUpdate($postId, $data) {
+        if(!empty($data)) {
+            $columns = [];
+            unset($data['post_id']);
+            $this->delete("post_id = " . $postId);
+            foreach ($data['categories'] as $key => $value) {
+                $columns['post_id'] = $postId;
+                $columns['category_id'] = $value;
+                $this->insert($columns);
+            }
+        }
+    }
+
     /**
      * If postToCategory with given id is found do soft-delete else throw Exception
      * @param int $postToCategoryId

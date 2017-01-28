@@ -24,9 +24,6 @@ class MultimediaController extends ControllerAbstract
         $this->view->systemMessages = $this->_systemMessages;
     }
 
-    /**
-     * @param Model_Admin_Multimedia_Multimedia $modelMultimedia
-     */
     public function indexAction(Multimedia $modelMultimedia)
     {
         // All albums fetching

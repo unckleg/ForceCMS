@@ -7,8 +7,7 @@ class BlogCategory extends \Zend_Db_Table_Abstract
     // table name
     protected $_name = 'cms_blog_category';
 
-    // soft delete constants read about it on link bellow
-    // http://www.pcmag.com/encyclopedia/term/57355/soft-delete
+    // soft delete constants
     const IS_DELETED = 1;
     const IS_ACTIVE = 0;
 
@@ -16,7 +15,7 @@ class BlogCategory extends \Zend_Db_Table_Abstract
     const STATUS_HIDDEN = 0;
 
     /**
-     * Return array-object of all categorys from database
+     * Return array-object of all categories from database
      * @return Array-Object
      */
     public function getAll() {

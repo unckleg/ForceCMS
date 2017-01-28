@@ -10,8 +10,7 @@ class BlogPost extends \Zend_Db_Table_Abstract
     // table name
     protected $_name = 'cms_blog_post';
 
-    // soft delete constants read about it on link bellow
-    // http://www.pcmag.com/encyclopedia/term/57355/soft-delete
+    // soft delete constants
     const IS_DELETED = 1;
     const IS_ACTIVE = 0;
 
@@ -68,16 +67,15 @@ class BlogPost extends \Zend_Db_Table_Abstract
      * @param \Zend_Db_Table_Abstract $modelBlogTag
      * @return int postId | id of newly created post
      */
-    public function createPostCategoryTagData($formData,
-                                              ZendDbAbstract $modelBlogPostToCategory,
-                                              ZendDbAbstract $modelBlogTag)
+    public function createPostCategoryTagData($formData, ZendDbAbstract $modelBlogPostToCategory,
+                                                         ZendDbAbstract $modelBlogTag)
     {
         // models array variables
         $postData = [];
         $formData['date_published'] = date('Y-m-d H:i:s', strtotime($formData['date_published']));
 
         $postDataFields = $this->info(ZendDbAbstract::COLS);
-        if (!empty($formData) && count($formData) > 0) {
+        if (!empty($formData)) {
 
             // Post inserting
             foreach ($formData as $field => $value) {
@@ -112,6 +110,7 @@ class BlogPost extends \Zend_Db_Table_Abstract
 
             // general array variable that is passed to form populate method
             $postCategoryTagData = [];
+            $postCategoryData = [];
             // permanent array variables
             $postToCategoryPermData = [];
 
@@ -155,23 +154,43 @@ class BlogPost extends \Zend_Db_Table_Abstract
                 $postTagPermData[] = $value['title'];
             }
 
-            $postCategoryTagData[0]['tags'] = implode(', ', $postTagPermData);
-            $postCategoryTagData[0]['categories'] = implode(', ', $postCategoryData);
+            $data = array_shift($postCategoryTagData);
+            $data['tags'] = implode(', ', $postTagPermData);
+            $data['categories'] = implode(', ', $postCategoryData);
 
-            return $postCategoryTagData[0];
+            return $data;
         }
 
     }
 
-    /**
-     * @param int $postId
-     * @param array $postDate
-     */
-    public function editPost($postId, $postDate) {
+    public function editPost($postId, $postData, ZendDbAbstract $modelBlogPostToCategory,
+                                                 ZendDbAbstract $modelBlogTag)
+    {
         if (isset($postData['id'])) {
             unset($postData['id']);
         }
-        $this->update($postDate, 'id = ' . $postId);
+
+        if (is_array($postData['categories']) &&
+            !empty($postData['categories']))
+        {
+            $data['post_id'] = $postId;
+            $data['categories'] = $postData['categories'];
+            $modelBlogPostToCategory->deleteOldRelationsAndUpdate($postId, $data);
+        }
+
+        $tagData['tags'] = explode(',', $postData['tags']);
+        $modelBlogTag->deleteOldRelationsAndUpdate($postId, $tagData);
+
+        $postDataFields = $this->info(ZendDbAbstract::COLS);
+
+        // Post data updating
+        $newPostData = [];
+        foreach ($postData as $field => $value) {
+            if (in_array($field, $postDataFields)) {
+                $newPostData[$field] = $value;
+            }
+        }
+        $this->update($newPostData, 'id = ' . $postId);
     }
 
     /**

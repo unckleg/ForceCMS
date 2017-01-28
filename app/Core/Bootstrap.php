@@ -17,7 +17,7 @@ use ForceCMS\Plugins\Caching;
  * @package     ForceCMS
  * @subpackage  Application
  * @category    Bootstrap
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Bootstrap extends \ForceX\Application\Module\Bootstrap {
 
@@ -69,7 +69,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
 
         // set layout based on request status
         if($requestStatus && $activeTheme !== NULL) {
-            $path = APPLICATION_PATH . '/Themes/' . $activeTheme->theme_folder . '/templates';
+            $path = APP_PUBLIC . '/themes/' . $activeTheme->theme_folder . '/templates';
             \Zend_Registry::set('theme', $activeTheme);
             \Zend_Layout::startMvc()
                 ->setLayout('layout')
@@ -100,7 +100,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
         // theme folder based on requestStatus
         if ($requestStatus) {
             $activeTheme = Themes::getActiveTheme();
-            $path = APPLICATION_PATH . '/Themes/' . $activeTheme->theme_folder . '/templates';
+            $path = APP_PUBLIC . '/themes/' . $activeTheme->theme_folder . '/templates';
             $this->view->addScriptPath($path);
             $this->view->setScriptPath($path);
             $this->view->headTitle('Web site title')->setSeparator(' - ');

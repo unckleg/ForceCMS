@@ -6,7 +6,7 @@
  * @package     ForceCMS
  * @subpackage  Application
  * @category    Starter|Bootstrap
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Start extends \ForceX\Application\Bootstrap
 {

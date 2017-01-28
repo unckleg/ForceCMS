@@ -1,18 +1,27 @@
 <?php
-
 namespace ForceX\Controller\Dispatcher;
-
 /**
  * {@inheritdoc}
  */
 class Standard extends \Zend_Controller_Dispatcher_Standard
 {
-
     /**
      * Default module
      * @var string
      */
     protected $_defaultModule = 'Core';
+
+    /**
+     * Default zend directory separator
+     * @var string
+     */
+    protected $_defaultSeparator = '_';
+
+    /**
+     * Namespaced directory separator
+     * @var string
+     */
+    protected $_slashSeparator = '/';
 
     /**
      * The namespace that contains the controllers inside of a module
@@ -37,9 +46,7 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
             $controllerName = $this->getDefaultControllerName();
             $request->setControllerName($controllerName);
         }
-
         $className = $this->formatControllerName($controllerName);
-
         $controllerDirs      = $this->getControllerDirectory();
         $module = $this->formatModuleName($request->getModuleName());
         if ($this->isValidModule($module)) {
@@ -56,7 +63,6 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
         return $className;
     }
 
-
     /**
      * {@inheritdoc}
      *
@@ -66,22 +72,20 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
     public function isDispatchable(\Zend_Controller_Request_Abstract $request)
     {
         $className = $this->getControllerClass($request);
-
         if (!$className) {
             return false;
         }
-
         $finalClass  = $this->getFullClass($className);
-
         if (class_exists($finalClass, false)) {
             return true;
         }
-
         $fileSpec    = $this->classToFilename($className);
         $dispatchDir = $this->getDispatchDirectory();
         $className   = $dispatchDir . DIRECTORY_SEPARATOR . $fileSpec;
 
-        $className = str_replace('_', '/', $className);
+        if (strpos($className, $this->_defaultSeparator) !== false) {
+            $className = $this->subdirectoryToClassName($className);
+        }
 
         return \Zend_Loader::isReadable($className);
     }
@@ -96,6 +100,7 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
     {
         return str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
     }
+
 
     /**
      * {@inheritdoc}
@@ -116,6 +121,22 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
     /**
      * {@inheritdoc}
      *
+     * @param $defaultClassPath
+     * @return mixed
+     */
+    protected function subdirectoryToClassName($defaultClassPath)
+    {
+        $namespacedClassName = str_replace(
+            $this->_defaultSeparator,
+            $this->_slashSeparator,
+            $defaultClassPath
+        );
+        return $namespacedClassName;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @param string $className
      * @return string Class name loaded
      * @throws Zend_Controller_Dispatcher_Exception if class not loaded
@@ -123,28 +144,24 @@ class Standard extends \Zend_Controller_Dispatcher_Standard
     public function loadClass($className)
     {
         $fullClass = $this->getFullClass($className);
-        $fullClass = str_replace('_', '\\', $fullClass);
-        $className = str_replace('_', '/', $className);
-
-        $filePath = (APPLICATION_PATH .'/Core/Controller/'. $className .'.php');
-        require_once($filePath);
+        $fullClass = str_replace(
+            $this->_slashSeparator, '\\',
+            $this->subdirectoryToClassName($fullClass)
+        );
 
         if (!class_exists($fullClass)) {
             throw new \Zend_Controller_Dispatcher_Exception('Invalid controller class ("' . $fullClass . '")');
         }
-
         return $fullClass;
     }
 
     public function getFullClass($className)
     {
         $fullClass = $this->_curModule . '\\';
-
         if ($this->getControllerNamespace()) {
             $fullClass .= $this->getControllerNamespace() . '\\';
         }
         $fullClass .= $className;
-
         return $fullClass;
     }
 

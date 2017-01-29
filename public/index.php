@@ -8,7 +8,7 @@ define('ZEND_LIBRARY_PATH', realpath('../lib'));
 
 define('APPLICATION_PATH', realpath('../app' ));
 
-define('APP_LIBRARY_PATH', APPLICATION_PATH . '../lib/ForceCMS');
+define('APP_LIBRARY_PATH', APPLICATION_PATH . '/../lib/ForceCMS');
 
 define('APP_PUBLIC', realpath(''));
 

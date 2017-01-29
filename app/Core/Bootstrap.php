@@ -9,8 +9,10 @@ use ForceCMS\Controller\Plugin\Acl,
     ForceCMS\Plugins\Admin,
     ForceCMS\Plugins\CsrfProtect,
     ForceCMS\Plugins\HtmlCompress,
-    ForceCMS\Plugins\Router;
-use ForceCMS\Plugins\Caching;
+    ForceCMS\Plugins\Router,
+    ForceCMS\Plugins\Caching,
+    ForceCMS\Plugins\HtmlBeautifier,
+    ForceCMS\Plugins\HtmlMinifier;
 
 /**
  * Bootstraps required resources for the application
@@ -134,14 +136,14 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
                     $translate = new \Zend_Translate([
                         'adapter' => 'array',
                         'content' => APPLICATION_PATH . '/Translate/languages/' . $value->short . '.php',
-                        'locale' => $value->short
+                        'locale'  => $value->short
                         ]
                     );
                 } else {
                     $translate->addTranslation([
                             'adapter' => 'array',
                             'content' => APPLICATION_PATH . '/Translate/languages/' . $value->short . '.php',
-                            'locale' => $value->short
+                            'locale'  => $value->short
                         ]
                     );
                 }
@@ -171,7 +173,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
            ->registerPlugin(new Admin())
            ->registerPlugin(new Caching())
            ->registerPlugin(new LanguagePlugin())
+           ->registerPlugin(new HtmlBeautifier());
            //->registerPlugin(new CsrfProtect())
-           ->registerPlugin(new HtmlCompress());
     }
 }

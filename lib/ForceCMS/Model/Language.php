@@ -6,7 +6,7 @@ namespace ForceCMS\Model;
  * @package     ForceCMS
  * @subpackage  Model
  * @category    Translation
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Language extends \Zend_Db_Table_Abstract
 {

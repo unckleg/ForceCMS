@@ -10,7 +10,7 @@
 <div class="mt-element-card mt-element-overlay">
     <div class="row" id="sortable">
     <?php $i=0; foreach ($this->albums as $album): $i++; ?>
-        <div class="mt-card-item col-md-3" data-action="sort">
+        <div class="mt-card-item col-md-3 sortable" data-album-id="<?php echo $this->escape($album['id']);?>">
             <div class="mt-card-avatar mt-overlay-4">
                 <img src="<?php echo $this->escape($album['album_photo']); ?>" />
                 <div class="mt-overlay">
@@ -60,7 +60,39 @@
     var sortableRow = $('#sortable');
 
     sortableRow.sortable({
-        handle: '[data-action="sort"]',
+        placeholder: "multimedia-placeholder",
+        start: function(event, ui){
+            var classes = ui.item.attr('class').split(/\s+/);
+            for(var x=0; x<classes.length;x++){
+                if (classes[x].indexOf("col")>-1){
+                    ui.placeholder.addClass(classes[x]);
+                }
+            }
+            ui.placeholder.css({
+                width: ui.item.innerWidth() - 30 + 1,
+                height: ui.item.innerHeight() - 15 + 1,
+                padding: ui.item.css("padding"),
+                marginTop: 0
+
+            });
+        },
+        update: function( ) {
+            var sortedIds = $('#sortable').sortable('toArray', {
+                attribute: 'data-album-id'
+            });
+
+            $.ajax({
+                url: '<?php echo $this->url(['controller' => 'admin_multimedia', 'action' => 'order'], 'default', true) ;?>',
+                method: 'post',
+                data:  {
+                    sortedIds: sortedIds
+                },
+            }).done(function(data) {
+
+            }).fail(function() {
+                console.log('There was error while communicated with server.');
+            });
+        }
     });
 
 <?php $this->inlineScript()->captureEnd(); ?>

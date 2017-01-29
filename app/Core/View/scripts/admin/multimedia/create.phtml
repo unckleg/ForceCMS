@@ -1,0 +1,88 @@
+<h1 class="page-title"> Dodavanje novog albuma
+    <div class="btn-group pull-right">
+        <a href="<?php echo $this->resourceUrl()->index('index');?>"  class="btn sbold green">
+            <i class="fa fa-arrow-left"></i>&nbsp;
+            Nazad
+        </a>
+    </div>
+</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label class="control-label">Naziv albuma</label>
+                            <input type="text" class="form-control" placeholder="Unesite naziv albuma">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Link albuma</label>
+                            <input type="text" class="form-control" placeholder="http://facebook.com/galerija-neka/">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Glavna fotografija</label>
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group input-large">
+                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                        <span class="fileinput-filename"> </span>
+                                    </div>
+                                    <span class="input-group-addon btn default btn-file">
+                                    <span class="fileinput-new"> Pronađi fajl </span>
+                                    <span class="fileinput-exists"> Izmeni </span>
+                                    <input type="file" name="..."> </span>
+                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
+                                        Obriši
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="uploader">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+    $this->getHelper('HtmlLibraries')->library('fileinput');
+    $this->getHelper('HtmlLibraries')->library('jqueryui');
+    $this->getHelper('HtmlLibraries')->library('plupload');
+?>
+
+<script>
+    <?php $this->inlineScript()->captureStart(); ?>
+
+    $(function() {
+        $("#uploader").pluploadQueue({
+            runtimes : 'html5,flash,silverlight,html4',
+            url : "<?php echo $this->url(['controller' => 'admin_multimedia', 'action' => 'upload'], 'default', true);?>",
+            rename : true,
+            dragdrop: true,
+            max_file_count: 20,
+            prevent_duplicates: true,
+            multiple_queues: true,
+            sortable: true,
+            views: {
+                list: true,
+                thumbs: true,
+                active: 'thumbs'
+            },
+            filters : {
+                max_file_size : '5mb',
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,gif,png"},
+                ]
+            },
+        });
+    });
+
+    <?php $this->inlineScript()->captureEnd(); ?>
+</script>

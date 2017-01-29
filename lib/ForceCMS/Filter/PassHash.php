@@ -7,7 +7,7 @@ namespace ForceCMS\Filter;
  * @package     ForceCMS
  * @subpackage  Filter
  * @category    Filter
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class PassHash implements \Zend_Filter_Interface
 {

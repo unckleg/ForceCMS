@@ -171,7 +171,7 @@ class Bootstrap extends \ForceX\Application\Module\Bootstrap {
            ->registerPlugin(new Admin())
            ->registerPlugin(new Caching())
            ->registerPlugin(new LanguagePlugin())
-           ->registerPlugin(new CsrfProtect())
+           //->registerPlugin(new CsrfProtect())
            ->registerPlugin(new HtmlCompress());
     }
 }

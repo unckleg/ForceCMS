@@ -6,7 +6,7 @@ namespace ForceCMS\Filter;
  * @package     ForceCMS
  * @subpackage  Filter
  * @category    Filter
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Link extends \Zend_Controller_Plugin_Abstract {
 	

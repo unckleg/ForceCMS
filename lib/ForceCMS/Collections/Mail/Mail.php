@@ -8,7 +8,7 @@ namespace ForceCMS\Collections\Mail;
  * @package     ForceCMS
  * @subpackage  Mail
  * @category    Protocols
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Mail {
 	

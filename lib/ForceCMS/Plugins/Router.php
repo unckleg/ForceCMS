@@ -10,7 +10,7 @@ use ForceCMS\Model\Language;
  * @package     ForceCMS
  * @subpackage  Plugins
  * @category    Routing
- * @copyright   Copyright (c) 20012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
+ * @copyright   Copyright (c) 2012-2017 Djordje Stojiljkovic <djordjestojilljkovic@gmail.com>
  */
 class Router extends \Zend_Controller_Plugin_Abstract {
 

@@ -94,7 +94,13 @@ class HtmlLibraries extends Zend_View_Helper_Abstract
             'jqueryui' => [
                 '/skins/backend/global/plugins/jquery-ui/jquery-ui.min.js',
                 '/skins/backend/global/plugins/jquery-ui/jquery-ui.min.css',
-            ]
+            ],
+            'plupload' => [
+                '/skins/backend/cms/js/plupload/jquery.plupload.queue.css',
+                '/skins/backend/cms/js/plupload/js/moxie.js',
+                '/skins/backend/cms/js/plupload/js/plupload.full.min.js',
+                '/skins/backend/cms/js/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js'
+            ],
         ];
 
         return $this->_getLibraries($libraries[$index]);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ForceCMS.iml" filepath="$PROJECT_DIR$/.idea/ForceCMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tourist-guide/.idea/tourist-guide.iml" filepath="$PROJECT_DIR$/../tourist-guide/.idea/tourist-guide.iml" />
+      <module fileurl="file://$USER_HOME$/projects/ultimate-cms/.idea/ultimate-cms.iml" filepath="$USER_HOME$/projects/ultimate-cms/.idea/ultimate-cms.iml" />
+    </modules>
+  </component>
+</project>

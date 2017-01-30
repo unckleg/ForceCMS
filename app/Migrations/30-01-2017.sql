@@ -130,7 +130,7 @@ CREATE TABLE `cms_blog_category` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -161,7 +161,7 @@ CREATE TABLE `cms_blog_comment` (
   `name_surname` varchar(255) NOT NULL DEFAULT 'anonymouse',
   `mark_read` tinyint(1) NOT NULL,
   `mark_approved` tinyint(1) NOT NULL DEFAULT '0',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -191,7 +191,7 @@ CREATE TABLE `cms_blog_post` (
   `title` varchar(500) NOT NULL,
   `author_id` int(11) NOT NULL,
   `text` longtext NOT NULL,
-  `date_published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `featured_image` varchar(500) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `comments_enabled` tinyint(1) NOT NULL DEFAULT '0',
@@ -316,7 +316,7 @@ CREATE TABLE `cms_multimedia_photos` (
   `photo_path` varchar(1000) DEFAULT NULL,
   `photo_order` tinyint(4) NOT NULL,
   `album_id` int(10) UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -358,7 +358,7 @@ CREATE TABLE `cms_page_content` (
   `text` longtext NOT NULL,
   `page_photo` varchar(500) DEFAULT NULL,
   `status` int(4) NOT NULL DEFAULT '1' COMMENT '1-visible, 0-hidden',
-  `date_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -621,9 +621,9 @@ CREATE TABLE `themes` (
   `theme_folder` varchar(255) NOT NULL,
   `theme_status` tinyint(4) NOT NULL DEFAULT '0',
   `theme_screenshot` varchar(500) NOT NULL DEFAULT 'no-img.png',
-  `lastchange` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lastchange` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `who_created` int(11) NOT NULL,
-  `date_created` datetime NOT NULL
+  `date_created` timestamp NOT CURRENT_TIMESTAMP()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

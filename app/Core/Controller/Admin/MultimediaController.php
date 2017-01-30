@@ -2,10 +2,12 @@
 
 namespace Core\Controller\Admin;
 
+use Core\Form\Admin\Multimedia\Album;
 use ForceCMS\Collections\Image\ImageResize;
 use ForceCMS\Model\ORM as ORM,
     ForceCMS\Controller\ControllerAbstract,
-    Core\Model\Admin\Multimedia\Multimedia as Multimedia;
+    Core\Model\Admin\Multimedia\Multimedia as Multimedia,
+    \Zend_Controller_Request_Http as Request;
 
 class MultimediaController extends ControllerAbstract
 {
@@ -46,9 +48,50 @@ class MultimediaController extends ControllerAbstract
         $this->view->albums = $allAlbums;
     }
 
-    public function createAction()
+    /**
+     * @param array $formData
+     */
+    public function createAction($formData, Album $form, Multimedia $modelMultimedia, Request $request)
     {
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout->disableLayout();
 
+        if ($request->isXmlHttpRequest()) {
+            try {
+
+                if ($request->getPost('album_photo') !== '' && !empty($request->getPost('album_photo'))) {
+
+                    $form->album_photo->receive();
+                    $fileExtension =  pathinfo($form->album_photo->getFileName(), PATHINFO_EXTENSION);
+                    $image = '/uploads/albums/' .basename($form->album_photo->getFileName());
+
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
+                    $resizeImage->resizeTo($this->_widhtXL, $this->_heightXL, 'exact');
+                    $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-xl.".$fileExtension);
+
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
+                    $resizeImage->resizeTo($this->_widhtL, $this->_heightL, 'exact');
+                    $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-l.".$fileExtension);
+
+                    $resizeImage = new ImageResize(APP_PUBLIC . $image);
+                    $resizeImage->resizeTo($this->_widhtS, $this->_heightS, 'exact');
+                    $resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-s.".$fileExtension);
+
+                    $formData['album_photo'] = $image;
+
+                }
+
+                $albumId = $modelMultimedia->insert($formData);
+                $this->_helper->json($albumId);
+
+                $this->_flashMessenger->addMessage('Album is successfully created.', 'success');
+
+            } catch (\Exception $ex) {
+                $this->_systemMessages['errors'][] = $ex->getMessage();
+            }
+        }
+
+        $this->view->form = $form;
     }
 
     /**
@@ -108,11 +151,9 @@ class MultimediaController extends ControllerAbstract
         if($upload->isUploaded()) {
 
             $upload->receive();
-
             $name = $upload->getFileName();
 
             $fileExtension = pathinfo($name, PATHINFO_EXTENSION);
-
             $image = basename($name);
 
             $resizeImage1 = new ImageResize($destinationFolder . $image);

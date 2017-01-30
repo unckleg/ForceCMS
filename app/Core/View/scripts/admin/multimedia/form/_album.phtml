@@ -1,0 +1,36 @@
+<form class="form"
+      method="<?php echo $this->element->getMethod();?>"
+      action="<?php echo $this->element->getAction();?>"
+      enctype="<?php echo $this->element->getEnctype();?>">
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <label class="control-label">Naziv albuma</label>
+            <?php echo $this->element->album_name; ?>
+        </div>
+        <div class="col-md-4">
+            <label class="control-label">Link albuma</label>
+            <?php echo $this->element->url_name; ?>
+        </div>
+        <div class="col-md-3">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+                <label class="control-label">Glavna fotografija</label>
+                <div class="input-group input-large">
+                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
+                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                        <span class="fileinput-filename"> </span>
+                    </div>
+                    <span class="input-group-addon btn default btn-file">
+                    <span class="fileinput-new"> Pronađi fajl </span>
+                    <span class="fileinput-exists"> Izmeni </span>
+                    <input type="file" name="album_photo"> </span>
+                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
+                        Obriši
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1" style="padding: 26px;">
+            <button type="submit" class="btn btn-cms submit">Sačuvaj</button>
+        </div>
+    </div>
+</form>

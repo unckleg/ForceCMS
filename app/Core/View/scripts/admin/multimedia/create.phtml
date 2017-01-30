@@ -12,36 +12,11 @@
         <div class="portlet light">
             <div class="portlet-body">
                 <div class="row">
+
+                    <?php echo $this->form; ?>
+
                     <div class="col-md-12">
-                        <div class="col-md-4">
-                            <label class="control-label">Naziv albuma</label>
-                            <input type="text" class="form-control" placeholder="Unesite naziv albuma">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">Link albuma</label>
-                            <input type="text" class="form-control" placeholder="http://facebook.com/galerija-neka/">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">Glavna fotografija</label>
-                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <div class="input-group input-large">
-                                    <div class="form-control uneditable-input input-fixed input-medium" data-trigger="fileinput">
-                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                        <span class="fileinput-filename"> </span>
-                                    </div>
-                                    <span class="input-group-addon btn default btn-file">
-                                    <span class="fileinput-new"> Pronađi fajl </span>
-                                    <span class="fileinput-exists"> Izmeni </span>
-                                    <input type="file" name="..."> </span>
-                                    <a href="javascript:;" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput">
-                                        Obriši
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div id="uploader">
+                        <div id="uploader" style="display: none;">
 
                         </div>
                     </div>
@@ -59,6 +34,27 @@
 
 <script>
     <?php $this->inlineScript()->captureStart(); ?>
+
+    $('.submit').on('click', function (e) {
+       e.preventDefault();
+       e.stopPropagation();
+
+       var formData = $('.form').serializeArray();
+
+        $.ajax({
+            url: '<?php echo $this->url(['controller' => 'admin_multimedia', 'action' => 'create']) ;?>',
+            method: 'post',
+            data:  {
+                formData: formData
+            },
+        }).done(function(data) {
+            console.log(data);
+            $('#uploader').fadeIn();
+        }).fail(function() {
+            console.log('There was error while communicated with server.');
+        });
+
+    });
 
     $(function() {
         $("#uploader").pluploadQueue({

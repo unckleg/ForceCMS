@@ -124,8 +124,8 @@ class Indenter
                         'match' => $matches[0]
                     );
 
-                    $subject = substr($subject, strlen($matches[0]));
-                    // TODO: push back to mb_substr for local app
+                    $subject = mb_substr($subject, mb_strlen($matches[0]));
+
                     if ($rule === static::MATCH_DISCARD) {
                         break;
                     }
